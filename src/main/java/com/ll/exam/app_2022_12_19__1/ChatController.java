@@ -1,10 +1,7 @@
 package com.ll.exam.app_2022_12_19__1;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +11,16 @@ import java.util.List;
 public class ChatController {
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
+    public record WriteMessageRequest(String authorName, String content) {
+    }
+
     public record WriteMessageResponse(long id) {
     }
 
     @PostMapping("/writeMessage")
     @ResponseBody
-    public RsData<WriteMessageResponse> writeMessage() {
-        ChatMessage message = new ChatMessage("홍길동", "안녕하세요.");
+    public RsData<WriteMessageResponse> writeMessage(@RequestBody WriteMessageRequest req) {
+        ChatMessage message = new ChatMessage(req.authorName(), req.content());
 
         chatMessages.add(message);
 
