@@ -1,5 +1,6 @@
 package com.ll.exam.app_2022_12_19__1;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,11 @@ public class ChatController {
     }
 
     public record WriteMessageResponse(long id) {
+    }
+
+    @GetMapping("/room")
+    public String showRoom() {
+        return "chat/room";
     }
 
     @PostMapping("/writeMessage")
@@ -53,6 +59,17 @@ public class ChatController {
                     .filter(i -> chatMessages.get(i).getId() == req.fromId)
                     .findFirst()
                     .orElse(-1);
+
+            /*
+            int foundIndex = -1;
+
+            for ( int i = 0; i < messages.size(); i++ ) {
+                if ( messages.get(i).getId() == req.fromId ) {
+                    foundIndex = i;
+                    break;
+                }
+            }
+            */
 
             if (index != -1) {
                 // 만약에 index가 있다면, 0번 부터 index 번 까지 제거한 리스트를 만든다.
