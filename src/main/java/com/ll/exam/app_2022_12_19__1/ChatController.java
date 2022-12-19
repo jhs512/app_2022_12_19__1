@@ -1,6 +1,7 @@
 package com.ll.exam.app_2022_12_19__1;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,10 +24,20 @@ public class ChatController {
 
         chatMessages.add(message);
 
-        return new RsData(
+        return new RsData<>(
                 "S-1",
                 "메세지가 작성되었습니다.",
                 new WriteMessageResponse(message.getId())
+        );
+    }
+
+    @GetMapping("/messages")
+    @ResponseBody
+    public RsData<List<ChatMessage>> messages() {
+        return new RsData<>(
+                "S-1",
+                "성공",
+                chatMessages
         );
     }
 }
